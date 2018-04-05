@@ -1,8 +1,8 @@
-import pygame
-import time
-from pygame.locals import *
+from pygame import display, event, init, key, mouse, MOUSEBUTTONUP
+from pygame.locals import K_DOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_UP, KEYDOWN, QUIT
 from time import sleep
-pygame.init()
+
+init()
 
 # Controller
 class Controller():
@@ -12,15 +12,15 @@ class Controller():
 		self.view = view
 
 	def animationFrame(self):
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				self.keep_going = False
-			elif event.type == KEYDOWN:
-				if event.key == K_ESCAPE:
-					self.keep_going = False
-			elif event.type == pygame.MOUSEBUTTONUP:
-				self.model.set_dest(pygame.mouse.get_pos())
-		keys = pygame.key.get_pressed()
+		for e in event.get():
+			if e.type == QUIT:
+				self.exit = True
+			elif e.type == KEYDOWN:
+				if e.key == K_ESCAPE:
+					self.exit = True
+			# elif e.type == MOUSEBUTTONUP:
+				# self.model.set_dest(mouse.get_pos())
+		keys = key.get_pressed()
 		if keys[K_LEFT]:
 			self.model.dest_x -= 1
 		if keys[K_RIGHT]:
@@ -83,18 +83,15 @@ class Model():
 # View
 class View():
 	def __init__(self, model):
-		self.screen = pygame.display.set_mode((640, 480), 32)
+		self.screen = display.set_mode((640, 480), 32)
 		# self.turtle_image = pygame.image.load("turtle.png")
 		self.model = model
-		self.model.rect = self.turtle_image.get_rect()
+		# self.model.rect = self.turtle_image.get_rect()
 
 	def draw(self):    
-		self.screen.fill([0,200,100])
-		self.screen.blit(self.turtle_image, self.model.rect)
-		pygame.display.flip()
-
-
-print("Use the arrow keys to move. Press Esc to quit.")
+		self.screen.fill([0, 0, 0])
+		# self.screen.blit(self.turtle_image, self.model.rect)
+		display.flip()
 
 model = Model()
 view = View(model)
@@ -103,5 +100,3 @@ controller = Controller(model, view)
 while not controller.exit:
 	controller.animationFrame()
 	view.draw()
-
-print("Goodbye")
