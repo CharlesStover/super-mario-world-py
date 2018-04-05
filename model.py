@@ -1,7 +1,7 @@
 from datetime import datetime
 from mario import mario
 
-Model = {
+model = {
   'lastRender': datetime.now(),
   'objects': [ mario ],
   'renders': 0,
