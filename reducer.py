@@ -1,60 +1,53 @@
+WINDOW_WIDTH = 640
+
+def galoombaCollisionX(self, obj):
+  if obj.props['type'] == 'mario':
+    if self.props['horizontalVelocity'] < 0:
+      obj.set('x', self.props['x'] - obj.props['width'] - 0.01)
+    else:
+      obj.set('x', self.props['x'] + self.props['width'] + 0.01)
+  elif obj.props['type'] == 'galoomba' or obj.props['type'] == 'tube':
+    self.set('horizontalAcceleration', -1 * self.props['horizontalAcceleration']);
+    if self.props['horizontalVelocity'] > 0:
+      self.set('x', obj.props['x'] - self.props['width'] - 0.1)
+    else:
+      self.set('x', obj.props['x'] + obj.props['width'] + 0.1)
+    self.set('horizontalVelocity', -1 * self.props['horizontalVelocity']);
+
+def galoombaCollisionY(self, obj):
+  if obj.props['type'] == 'tube':
+    self.set('verticalVelocity', 0)
+    self.set('y', obj.props['y'] + obj.props['height'] + 0.1)
+
+def galoombaController(self):
+    if self.props['x'] > mario.props['x'] + WINDOW_WIDTH or self.props['x'] < mario.props['x'] - WINDOW_WIDTH:
+      reducer('DELETE', self)
+    if self.dead:
+      self.dead = self.dead + 1
+      if self.dead > 8:
+        reducer('DELETE', self)
+    else:
+      self.frame = self.frame + 1
+      if self.props['horizontalVelocity'] > 0:
+        if self.props['frame'] > 8:
+          self.set('sprite', [64, 0])
+        else:
+          self.set('sprite', [48, 0])
+      else:
+        if self.props['frame'] > 8:
+          self.set('sprite', [16, 0])
+        else:
+          self.set('sprite', [0, 0])
+      if self.props['frame'] > 15:
+        self.frame = 0
+
 def reducer(type, action):
   if type == 'ADD_GALOOMBA':
     var speed = Math.random() * 4 - 2;
-    this.objects.push(new Sprite('images/galoomba.gif', {
-      collisionX: function(obj) {
-        if (obj.type == 'mario') {
-          if (this.horizontalVelocity < 0) {
-            obj.set('x', this.x - obj.width - 0.01);
-          }
-          else {
-            obj.set('x', this.x + this.width + 0.01);
-          }
-        }
-        else if obj.props['type'] == 'galoomba' or obj.props['type'] == 'tube':
-          this.set('horizontalAcceleration', -1 * this.horizontalAcceleration);
-          this.set('x',
-            obj.x + (
-              this.horizontalVelocity > 0
-              ? -1 * this.width - 0.1
-              : obj.width + 0.1
-            )
-          );
-          this.set('horizontalVelocity', -1 * this.horizontalVelocity);
-        }
-      },
-      collisionY: function(obj) {
-        if (obj.type == 'tube') {
-          this.set('verticalVelocity', 0);
-          this.set('y', obj.y + obj.height + 0.1);
-        }
-      },
-      controller: function() {
-        if (
-          this.x > mario.x + document.body.clientWidth ||
-          this.x < mario.x - document.body.clientWidth
-        ) {
-          window.reducer('DELETE', this);
-        }
-        if (this.dead) {
-          this.dead++;
-          if (this.dead > 8) {
-            window.reducer('DELETE', this);
-          }
-        }
-        else {
-          this.frame++;
-          if (this.horizontalVelocity > 0) {
-            this.set('sprite', [this.frame > 8 ? 64 : 48, 0]);
-          }
-          else {
-            this.set('sprite', [this.frame > 8 ? 16 : 0, 0]);
-          }
-          if (this.frame > 15) {
-            this.frame = 0;
-          }
-        }
-      },
+    self.objects.push(new Sprite('images/galoomba.gif', {
+      collisionX: galoombaCollisionX,
+      collisionY: galoombaCollisionY,
+      controller: galoombaController,
       dead: 0,
       frame: 0,
       height: 15,
@@ -74,7 +67,7 @@ def reducer(type, action):
     }))
   elif type == 'ADD_TUBE':
     var TUBE_WIDTH = 32;
-    this.objects.push(new Sprite(null, {
+    self.objects.push(new Sprite(null, {
       className: 'tube',
       height: document.body.clientHeight - action.y,
       sheet: ['images/tube.gif', 'images/tube.gif'],
@@ -97,10 +90,10 @@ def reducer(type, action):
       mario.set('walking', 0);
     }
   elif type == 'DELETE':
-    for (var x of Object.keys(this.objects)) {
-      if (this.objects[x] == action) {
-        document.body.removeChild(this.objects[x].element);
-        delete this.objects[x];
+    for (var x of Object.keys(self.objects)) {
+      if (self.objects[x] == action) {
+        document.body.removeChild(self.objects[x].element);
+        delete self.objects[x];
         break;
       }
     }
@@ -112,7 +105,7 @@ def reducer(type, action):
     // document.body.style.setProperty('padding-left', Math.round(document.body.clientWidth / 2) + 'px');
     document.body.style.setProperty('padding-top', document.body.clientHeight + 'px');
   elif type == 'SHOOT_FIREBALL':
-    this.objects.push(Fireball());
+    self.objects.push(Fireball());
   elif type == 'WALK_LEFT':
     if (mario.walking !== -1) {
       mario.set('direction', false);
