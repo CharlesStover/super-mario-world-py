@@ -26,15 +26,6 @@ class Sprite:
     }
     if sheet:
       self.set('sheet', sheet)
-    attributes = {
-      'height': 0,
-      'width': 0,
-      'x': 0,
-      'y': 0,
-      **attr
-    }
-    for key, value in attributes:
-      self.set(key, value)
 
   def isInside(self, that):
     return (
