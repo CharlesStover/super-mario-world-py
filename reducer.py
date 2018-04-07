@@ -51,8 +51,12 @@ def reducer(model):
       speed = randint(-2, 2)
       if speed < 0:
         horizontalAcceleration = -0.1
-      else
+      else:
         horizontalAcceleration = 0.1
+      if speed > 0:
+        sprite = [48, 0]
+      else:
+        sprite = [0, 0]
       model.objects.push(Sprite('images/galoomba.gif', {
         collisionX: galoombaCollisionX,
         collisionY: galoombaCollisionY,
@@ -65,10 +69,7 @@ def reducer(model):
         maxHorizontalVelocity: 2,
         maxVerticalVelocity: -5,
         verticalAcceleration: -1,
-        sprite:
-          speed > 0
-          ? [48, 0]
-          : [0, 0],
+        sprite: sprite,
         type: 'galoomba',
         width: 16,
         x: mario.x + Math.random() * document.body.clientWidth - document.body.clientWidth / 2,
@@ -76,7 +77,7 @@ def reducer(model):
       }))
     elif type == 'ADD_TUBE':
       TUBE_WIDTH = 32
-      model.objects.push(new Sprite(null, {
+      model.objects.push(Sprite(null, {
         className: 'tube',
         height: document.body.clientHeight - action.y,
         sheet: ['images/tube.gif', 'images/tube.gif'],
