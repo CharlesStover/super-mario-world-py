@@ -2,6 +2,7 @@ from datetime import datetime
 from random import randint, seed
 seed(datetime.now())
 
+WINDOW_HEIGHT = 480
 WINDOW_WIDTH = 640
 
 def galoombaCollisionX(self, obj):
@@ -57,35 +58,35 @@ def reducer(model):
         sprite = [48, 0]
       else:
         sprite = [0, 0]
-      model.objects.push(Sprite('images/galoomba.gif', {
-        collisionX: galoombaCollisionX,
-        collisionY: galoombaCollisionY,
-        controller: galoombaController,
-        dead: 0,
-        frame: 0,
-        height: 15,
-        horizontalAcceleration: horizontalAcceleration,
-        horizontalVelocity: speed,
-        maxHorizontalVelocity: 2,
-        maxVerticalVelocity: -5,
-        verticalAcceleration: -1,
-        sprite: sprite,
-        type: 'galoomba',
-        width: 16,
-        x: mario.x + Math.random() * document.body.clientWidth - document.body.clientWidth / 2,
-        y: document.body.clientHeight
+      model.objects.add(Sprite('images/galoomba.gif', {
+        'collisionX': galoombaCollisionX,
+        'collisionY': galoombaCollisionY,
+        'controller': galoombaController,
+        'dead': 0,
+        'frame': 0,
+        'height': 15,
+        'horizontalAcceleration': horizontalAcceleration,
+        'horizontalVelocity': speed,
+        'maxHorizontalVelocity': 2,
+        'maxVerticalVelocity': -5,
+        'verticalAcceleration': -1,
+        'sprite': sprite,
+        'type': 'galoomba',
+        'width': 16,
+        'x': mario.x + randint(-WINDOW_WIDTH, WINDOW_WIDTH),
+        'y': WINDOW_HEIGHT
       }))
     elif type == 'ADD_TUBE':
       TUBE_WIDTH = 32
-      model.objects.push(Sprite(null, {
-        className: 'tube',
-        height: document.body.clientHeight - action.y,
-        sheet: ['images/tube.gif', 'images/tube.gif'],
-        sprite: [[0, 0], [TUBE_WIDTH, 0]],
-        type: 'tube',
-        x: mario.x + action.x - document.body.clientWidth / 2 - TUBE_WIDTH / 2,
-        y: 0,
-        width: TUBE_WIDTH
+      model.objects.add(Sprite(null, {
+        'className': 'tube',
+        'height': WINDOW_HEIGHT - action.y,
+        'sheet': ['images/tube.gif', 'images/tube.gif'],
+        'sprite': [[0, 0], [TUBE_WIDTH, 0]],
+        'type': 'tube',
+        'x': mario.x + action.x - WINDOW_WIDTH / 2 - TUBE_WIDTH / 2,
+        'y': 0,
+        'width': TUBE_WIDTH
       }))
     elif type == 'BRAKE_LEFT':
       if mario.props['walking'] == -1:
@@ -108,11 +109,8 @@ def reducer(model):
     elif type == 'JUMP':
       if not mario.props['falling']:
         mario.set('verticalVelocity', mario.jumpVelocity)
-    elif type == 'RESIZE_WINDOW':
-      # document.body.style.setProperty('padding-left', Math.round(document.body.clientWidth / 2) + 'px');
-      document.body.style.setProperty('padding-top', document.body.clientHeight + 'px')
     elif type == 'SHOOT_FIREBALL':
-      model.objects.push(Fireball())
+      model.objects.add(Fireball())
     elif type == 'WALK_LEFT':
       if mario.props['walking'] !== -1:
         mario.set('direction', False)
