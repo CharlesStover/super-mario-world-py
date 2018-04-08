@@ -99,13 +99,7 @@ def reducer(model):
         mario.set('horizontalVelocity', 0)
         mario.set('walking', 0)
     elif type == 'DELETE':
-      for (var x of Object.keys(model.objects)) {
-        if model.objects[x] == action:
-          document.body.removeChild(model.objects[x].element)
-          delete model.objects[x]
-          break;
-        }
-      }
+      model.objects.remove(action)
     elif type == 'JUMP':
       if not mario.props['falling']:
         mario.set('verticalVelocity', mario.jumpVelocity)
