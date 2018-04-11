@@ -24,10 +24,18 @@ class Controller():
       elif e.type == pygame.KEYDOWN:
         if e.key == pygame.K_ESCAPE:
           self.exit = True
+        elif e.key == pygame.K_LEFT:
+          reducer('DECREASE_SCROLL_X')
+          reducer('WALK_LEFT')
+        elif e.key == pygame.K_RIGHT:
+          reducer('INCREASE_SCROLL_X')
+          reducer('WALK_RIGHT')
+        elif e.key == pygame.K_SPACE:
+          reducer('JUMP')
 
       # Key Up
       elif e.type == pygame.KEYUP:
-        if e.key == pygame.K_CTRL:
+        if e.key == pygame.K_LCTRL or e.key == pygame.K_RCTRL:
           reducer('SHOOT_FIREBALL')
         elif e.key == pygame.K_LEFT:
           reducer('BRAKE_LEFT')
@@ -110,7 +118,7 @@ def galoombaController(self):
       if self.props['frame'] > 15:
         self.frame = 0
 
-def reducer(type, action):
+def reducer(type, action = None):
   if type == 'ADD_GALOOMBA':
     speed = randint(-2, 2)
     if speed < 0:
@@ -121,7 +129,7 @@ def reducer(type, action):
       sprite = [48, 0]
     else:
       sprite = [0, 0]
-    model['objects'].add(Sprite('images/galoomba.gif', {
+    model['objects'].append(Sprite('images/galoomba.gif', {
       'collisionX': galoombaCollisionX,
       'collisionY': galoombaCollisionY,
       'controller': galoombaController,
@@ -153,33 +161,33 @@ def reducer(type, action):
     #}))
   elif type == 'BRAKE_LEFT':
     if mario.props['walking'] == -1:
-      mario.set('horizontalAcceleration', 0)
-      mario.set('horizontalVelocity', 0)
-      mario.set('walking', 0)
+      mario.props['horizontalAcceleration'] = 0
+      mario.props['horizontalVelocity'] = 0
+      mario.props['walking'] = 0
   elif type =='BRAKE_RIGHT':
     if mario.props['walking'] == 1:
-      mario.set('horizontalAcceleration', 0)
-      mario.set('horizontalVelocity', 0)
-      mario.set('walking', 0)
+      mario.props['horizontalAcceleration'] = 0
+      mario.props['horizontalVelocity'] = 0
+      mario.props['walking'] = 0
   elif type == 'DELETE':
     model['objects'].remove(action)
   elif type == 'JUMP':
     if not mario.props['falling']:
-      mario.set('verticalVelocity', mario.jumpVelocity)
+      mario.props['verticalVelocity'] = mario.props['jumpVelocity']
   elif type == 'SHOOT_FIREBALL':
-    model['objects'].add(Fireball())
+    model['objects'].append(Fireball())
   elif type == 'WALK_LEFT':
     if mario.props['walking'] != -1:
-      mario.set('direction', False)
-      mario.set('horizontalAcceleration', -1 * mario.props['walkAcceleration'])
-      mario.set('horizontalVelocity', -0.25 * mario.props['horizontalVelocity'])
-      mario.set('walking', -1)
+      mario.props['direction'] = False
+      mario.props['horizontalAcceleration'] = -1 * mario.props['walkAcceleration']
+      mario.props['horizontalVelocity'] = -0.25 * mario.props['horizontalVelocity']
+      mario.props['walking'] = -1
   elif type == 'WALK_RIGHT':
     if mario.props['walking'] != 1:
-      mario.set('direction', True)
-      mario.set('horizontalAcceleration', mario.props['walkAcceleration'])
-      mario.set('horizontalVelocity', -0.25 * mario.props['horizontalVelocity'])
-      mario.set('walking', 1)
+      mario.props['direction'] = True
+      mario.props['horizontalAcceleration'] = mario.props['walkAcceleration']
+      mario.props['horizontalVelocity'] = -0.25 * mario.props['horizontalVelocity']
+      mario.props['walking'] = 1
 
 
 
