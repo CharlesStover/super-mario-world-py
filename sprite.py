@@ -14,7 +14,6 @@ class Sprite:
       'image': None,
       'maxHorizontalVelocity': 0,
       'maxVerticalVelocity': 0,
-      'sheet': None,
       'sprite': [0, 0],
       'static': False,
       'type': None,
@@ -24,8 +23,9 @@ class Sprite:
       'x': 0,
       'y': 0
     }
-    if sheet:
-      self.set('sheet', sheet)
+    for key in attr.keys():
+      self.props[key] = attr[key]
+    self.setImage(sheet)
 
   def isInside(self, that):
     return (
@@ -35,17 +35,8 @@ class Sprite:
       self.props['y'] + self.props['height'] >= that.props['y']
     )
 
-  def set(self, key, value):
-    self.props[key] = value
-    self.changes.append(key)
+  def setImage(self, sheet):
+    self.props['image'] = image.load(sheet)
 
   def view(self):
-
-    # Changes that require view.
-    while len(self.changes) > 0:
-      change = self.changes.pop()
-      if change == 'sheet':
-        if self.props['sheet'] is list:
-          self.props['image'] = image.load(self.props['sheet'])
-        else:
-          self.props['image'] = image.load(self.props['sheet'])
+    pass
