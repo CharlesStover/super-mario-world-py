@@ -1,7 +1,9 @@
 import pygame
 from datetime import datetime
 from mario import mario
+from model import model
 from random import randint, seed
+from tube import TubeBottom, TubeTop
 seed(datetime.now())
 
 pygame.init()
@@ -66,16 +68,6 @@ class View():
       self.screen.blit(gameObject.props['image'], coordinates, sprite)
     pygame.display.update()
 
-
-
-# Model
-model = {
-  'lastRender': datetime.now(),
-  'objects': [ mario ],
-  'renders': 0,
-  'scrollX': 0,
-  'scrollY': 0
-}
 
 
 def galoombaCollisionX(self, obj):
@@ -149,17 +141,8 @@ def reducer(type, action = None):
       'y': WINDOW_HEIGHT
     }))
   elif type == 'ADD_TUBE':
-    TUBE_WIDTH = 32
-    #model['objects'].add(Sprite(null, {
-      #'className': 'tube',
-      #'height': WINDOW_HEIGHT - action.y,
-      #'sheet': ['images/tube.gif', 'images/tube.gif'],
-      #'sprite': [[0, 0], [TUBE_WIDTH, 0]],
-      #'type': 'tube',
-      #'x': mario.props['x'] + action.x - WINDOW_WIDTH / 2 - TUBE_WIDTH / 2,
-      #'y': 0,
-      #'width': TUBE_WIDTH
-    #}))
+    model['objects'].append(TubeTop(action['x'], action['y']))
+    TubeBottom(action['x'], action['y'])
   elif type == 'BRAKE_LEFT':
     if mario.props['walking'] == -1:
       mario.props['horizontalAcceleration'] = 0
