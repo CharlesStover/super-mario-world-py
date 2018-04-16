@@ -61,7 +61,7 @@ class View():
   def draw(self):    
     self.screen.fill([0, 0, 0])
     for gameObject in self.model['objects']:
-      coordinates = (gameObject.props['x'], gameObject.props['y'])
+      coordinates = (WINDOW_WIDTH / 2 + gameObject.props['x'] - mario.props['x'], WINDOW_HEIGHT - gameObject.props['y'] - gameObject.props['height'])
       self.screen.blit(gameObject.props['image'], coordinates)
     pygame.display.update()
 
