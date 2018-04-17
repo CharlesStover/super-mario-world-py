@@ -34,6 +34,25 @@ class View():
           ),
           gameObject.props['maxVerticalVelocity']
         )
+
+      # Calculate Y coordinate.
+      if gameObject.props['verticalVelocity']:
+        newY = gameObject.props['y'] + gameObject.props['verticalVelocity']
+        if newY <= 0:
+          gameObject.props['falling'] = False
+          gameObject.props['verticalVelocity'] = 0
+          gameObject.props['y'] = 0
+        else:
+          gameObject.props['falling'] = True
+          gameObject.props['y'] = newY
+
+          # Collision detection: Y
+          if gameObject.props['collisionY']:
+            for gameObject2 in model['objects']:
+              if gameObject == gameObject2 or gameObject2.props['static'] or not gameObject.isInside(gameObject2):
+                continue
+              gameObject.props['collisionY'](gameObject2)
+
       coordinates = (WINDOW_WIDTH / 2 + gameObject.props['x'] - mario.props['x'], WINDOW_HEIGHT - gameObject.props['y'] - gameObject.props['height'])
       sprite = (gameObject.props['sprite'][0], gameObject.props['sprite'][1], gameObject.props['width'], gameObject.props['height'])
       screen.blit(gameObject.props['image'], coordinates, sprite)
