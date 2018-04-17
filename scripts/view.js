@@ -1,39 +1,6 @@
 window.view = function() {
-  this.renders = (this.renders + 1) % 100;
-  this.lastRender = new Date().getTime();
-
   // Render each object.
   for (var x = 0; x < this.objects.length; ++x) {
-    var thisObject = this.objects[x];
-    if (!thisObject) {
-      continue;
-    }
-
-    // Calculate speeds
-    if (thisObject.horizontalAcceleration) {
-      thisObject.set(
-        'horizontalVelocity',
-        Math.min(
-          Math.max(
-            thisObject.horizontalVelocity + thisObject.horizontalAcceleration,
-            -1 * thisObject.maxHorizontalVelocity
-          ),
-          thisObject.maxHorizontalVelocity
-        )
-      );
-    }
-    if (thisObject.verticalAcceleration) {
-      thisObject.set(
-        'verticalVelocity',
-        Math.min(
-          Math.max(
-            thisObject.verticalVelocity + thisObject.verticalAcceleration,
-            -1 * thisObject.maxVerticalVelocity
-          ),
-          thisObject.maxVerticalVelocity
-        )
-      );
-    }
 
     // Calculate Y coordinate.
     if (thisObject.verticalVelocity) {
