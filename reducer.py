@@ -35,32 +35,40 @@ def reducer(type, action = None):
       'x': mario.props['x'] + randint(-WINDOW_WIDTH, WINDOW_WIDTH),
       'y': WINDOW_HEIGHT
     }))
+
   elif type == 'ADD_TUBE':
     model['objects'].append(TubeTop(action['x'], action['y']))
     TubeBottom(action['x'], action['y'])
+
   elif type == 'BRAKE_LEFT':
     if mario.props['walking'] == -1:
       mario.props['horizontalAcceleration'] = 0
       mario.props['horizontalVelocity'] = 0
       mario.props['walking'] = 0
+
   elif type =='BRAKE_RIGHT':
     if mario.props['walking'] == 1:
       mario.props['horizontalAcceleration'] = 0
       mario.props['horizontalVelocity'] = 0
       mario.props['walking'] = 0
+
   elif type == 'DELETE':
     model['objects'].remove(action)
+
   elif type == 'JUMP':
     if not mario.props['falling']:
       mario.props['verticalVelocity'] = mario.props['jumpVelocity']
+
   elif type == 'SHOOT_FIREBALL':
     model['objects'].append(Fireball())
+
   elif type == 'WALK_LEFT':
     if mario.props['walking'] != -1:
       mario.props['direction'] = False
       mario.props['horizontalAcceleration'] = -1 * mario.props['walkAcceleration']
       mario.props['horizontalVelocity'] = -0.25 * mario.props['horizontalVelocity']
       mario.props['walking'] = -1
+
   elif type == 'WALK_RIGHT':
     if mario.props['walking'] != 1:
       mario.props['direction'] = True

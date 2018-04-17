@@ -49,6 +49,10 @@ class Controller():
           'y': y
         })
 
+    for gameObject in self.model['objects']:
+      if gameObject.props['controller']:
+        gameObject.props['controller'](gameObject)
+
 
 
 # View

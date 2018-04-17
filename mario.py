@@ -42,9 +42,9 @@ def controller(self):
   # Set sprite.
   if self.props['direction']:
     def adjustWidth(self, width):
-      previousWidth = self.width
+      previousWidth = self.props['width']
       self.props['width'] = width
-      self.props['x'] = self.x + previousWidth - width
+      self.props['x'] = self.props['x'] + previousWidth - width
     if self.props['walking']:
       if self.props['walkFrame'] < xPerFrame:
         if self.props['horizontalVelocity'] == self.props['maxHorizontalVelocity']:
