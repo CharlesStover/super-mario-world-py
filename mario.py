@@ -24,10 +24,10 @@ def collisionX(self, obj):
       self.props['x'] = obj.props['x'] + obj.props['width'] + 0.1
 
 def collisionY(self, obj):
-  if obj.type == 'galoomba':
+  if obj.props['type'] == 'galoomba':
     self.props['verticalVelocity'] = -1 * self.props['verticalVelocity']
 
-  elif obj.type == 'tube':
+  elif obj.props['type'] == 'tube':
     self.props['falling'] = False
     self.props['verticalVelocity'] = 0
     self.props['y'] = obj.props['y'] + obj.props['height'] + 0.1

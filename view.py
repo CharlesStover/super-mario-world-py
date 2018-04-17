@@ -51,7 +51,22 @@ class View():
             for gameObject2 in model['objects']:
               if gameObject == gameObject2 or gameObject2.props['static'] or not gameObject.isInside(gameObject2):
                 continue
-              gameObject.props['collisionY'](gameObject2)
+              gameObject.props['collisionY'](gameObject, gameObject2)
+
+      # Calculate X coordinate.
+      if gameObject.props['horizontalVelocity']:
+        gameObject.props['x'] = gameObject.props['x'] + gameObject.props['horizontalVelocity']
+
+        # Collision detection: X
+        if gameObject.props['collisionX']:
+          for gameObject2 in model['objects']:
+            if gameObject == gameObject2 or gameObject2.props['static'] or not gameObject.isInside(gameObject2):
+              continue
+            gameObject.props['collisionX'](gameObject, gameObject2)
+
+      if gameObject.props['controller']:
+        gameObject.props['controller'](gameObject)
+      gameObject.view()
 
       coordinates = (WINDOW_WIDTH / 2 + gameObject.props['x'] - mario.props['x'], WINDOW_HEIGHT - gameObject.props['y'] - gameObject.props['height'])
       sprite = (gameObject.props['sprite'][0], gameObject.props['sprite'][1], gameObject.props['width'], gameObject.props['height'])

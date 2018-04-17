@@ -40,7 +40,3 @@ class Controller():
           'x': x,
           'y': y
         })
-
-    for gameObject in model['objects']:
-      if gameObject.props['controller']:
-        gameObject.props['controller'](gameObject)
