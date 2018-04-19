@@ -8,20 +8,20 @@ class Sprite:
       'collisionX': None,
       'collisionY': None,
       'controller': None,
-      'height': 0,
-      'horizontalAcceleration': 0,
-      'horizontalVelocity': 0,
+      'height': 0.0,
+      'horizontalAcceleration': 0.0,
+      'horizontalVelocity': 0.0,
       'image': None,
-      'maxHorizontalVelocity': 0,
-      'maxVerticalVelocity': 0,
-      'sprite': [0, 0],
+      'maxHorizontalVelocity': 0.0,
+      'maxVerticalVelocity': 0.0,
+      'sprite': [ 0, 0 ],
       'static': False,
       'type': None,
       'verticalAcceleration': -0.5,
-      'verticalVelocity': 0,
-      'width': 0,
-      'x': 0,
-      'y': 0
+      'verticalVelocity': 0.0,
+      'width': 0.0,
+      'x': 0.0,
+      'y': 0.0
     }
     for key in attr.keys():
       self.props[key] = attr[key]

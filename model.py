@@ -5,6 +5,6 @@ model = {
   'lastRender': datetime.now(),
   'objects': [ mario ],
   'renders': 0,
-  'scrollX': 0,
-  'scrollY': 0
+  'scrollX': 0.0,
+  'scrollY': 0.0
 }

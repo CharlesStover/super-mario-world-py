@@ -12,25 +12,25 @@ class View():
     pass
 
   def draw(self):
-    screen.fill([0, 0, 0])
+    screen.fill([ 0, 0, 0 ])
     model['lastRender'] = datetime.now()
     model['renders'] = (model['renders'] + 1) % 100
     for gameObject in model['objects']:
 
       # Calculate speeds
-      if gameObject.props['horizontalAcceleration'] != 0:
+      if gameObject.props['horizontalAcceleration'] != 0.0:
         gameObject.props['horizontalVelocity'] = min(
           max(
             gameObject.props['horizontalVelocity'] + gameObject.props['horizontalAcceleration'],
-            -1 * gameObject.props['maxHorizontalVelocity']
+            -1.0 * gameObject.props['maxHorizontalVelocity']
           ),
           gameObject.props['maxHorizontalVelocity']
         )
-      if gameObject.props['verticalAcceleration'] != 0:
+      if gameObject.props['verticalAcceleration'] != 0.0:
         gameObject.props['verticalVelocity'] = min(
           max(
             gameObject.props['verticalVelocity'] + gameObject.props['verticalAcceleration'],
-            -1 * gameObject.props['maxVerticalVelocity']
+            -1.0 * gameObject.props['maxVerticalVelocity']
           ),
           gameObject.props['maxVerticalVelocity']
         )
@@ -38,10 +38,10 @@ class View():
       # Calculate Y coordinate.
       if gameObject.props['verticalVelocity']:
         newY = gameObject.props['y'] + gameObject.props['verticalVelocity']
-        if newY <= 0:
+        if newY <= 0.0:
           gameObject.props['falling'] = False
-          gameObject.props['verticalVelocity'] = 0
-          gameObject.props['y'] = 0
+          gameObject.props['verticalVelocity'] = 0.0
+          gameObject.props['y'] = 0.0
         else:
           gameObject.props['falling'] = True
           gameObject.props['y'] = newY
