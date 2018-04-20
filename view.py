@@ -15,6 +15,7 @@ class View():
     screen.fill([ 0, 0, 0 ])
     model['lastRender'] = datetime.now()
     model['renders'] = (model['renders'] + 1) % 100
+
     for gameObject in model['objects']:
 
       # Calculate speeds

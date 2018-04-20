@@ -7,6 +7,9 @@ class Controller():
     self.exit = False
 
   def animationFrame(self):
+    if model['renders'] == 0:
+      reducer('ADD_GALOOMBA')
+
     for e in pygame.event.get():
       if e.type == pygame.QUIT:
         self.exit = True
